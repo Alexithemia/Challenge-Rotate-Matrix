@@ -11,16 +11,40 @@ const Direction = require("./Direction").Direction;
  *        @returns the rotated matrix
  */
 module.exports = class MatrixRotator {
-  constructor( matrix ) {
+  constructor(matrix) {
     this.matrix = matrix;
   }
 
   //      |-- Must be Direction.CW
   //      v        or Direction.CCW
-  rotate (direction) {
-    // do work here
+  rotate(direction) {
+    const tempMat = []
+    let count = 0;
+    let CCWcount = this.matrix.length - 1;
 
-    // must be a valid Direction, see Direction.js
+    //pushes empty arrays to have same number of rows
+    for (let i = 0; i < this.matrix.length; i++) {
+      tempMat.push([]);
+    }
 
+    if (direction === 'ClockWise') {
+      while (count < this.matrix.length) {
+        for (let j = this.matrix.length - 1; j >= 0; j--) {
+          tempMat[count].push(this.matrix[j][count]);
+        }
+        count++;
+      }
+      this.matrix = tempMat;
+
+    } else if (direction === 'CounterClockWise') {
+      while (count < this.matrix.length) {
+        for (let j = 0; j < this.matrix.length; j++) {
+          tempMat[CCWcount].push(this.matrix[j][count]);
+        }
+        count++;
+        CCWcount--;
+      }
+      this.matrix = tempMat;
+    }
   }
 };
